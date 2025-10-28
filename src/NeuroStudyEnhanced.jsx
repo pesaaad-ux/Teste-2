@@ -953,7 +953,7 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
             'Prediction error learning',
             'Sleep-dependent consolidation'
           ].map(badge => (
-            <span key={badge} className="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">
+            <span key={badge} className={`px-3 py-1 text-xs rounded-full font-medium ${darkMode ? 'bg-indigo-900/50 text-indigo-300' : 'bg-indigo-100 text-indigo-700'}`}>
               {badge}
             </span>
           ))}
@@ -974,20 +974,20 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
 
         <div className={`${cardClass} rounded-2xl p-8 border-2`}>
           <Activity className="w-12 h-12 text-green-600 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">95%</h3>
-          <p className="text-gray-600">Taxa de retenção média</p>
+          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>95%</h3>
+          <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Taxa de retenção média</p>
         </div>
 
         <div className={`${cardClass} rounded-2xl p-8 border-2`}>
           <TrendingUp className="w-12 h-12 text-blue-600 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">Evidência</h3>
-          <p className="text-gray-600">Baseado em 50+ estudos</p>
+          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Evidência</h3>
+          <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Baseado em 50+ estudos</p>
         </div>
       </div>
 
       {/* Scientific foundations */}
       <div className={`${cardClass} rounded-2xl p-8 border-2`}>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <h2 className={`text-2xl font-bold mb-6 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           <Award className="w-7 h-7 text-indigo-600" />
           Fundamentos Científicos do Protocolo
         </h2>
@@ -1031,11 +1031,15 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
               mechanism: 'SWS → hippocampal replay → neocortical integration'
             }
           ].map(item => (
-            <div key={item.title} className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-4 border border-indigo-200">
-              <h4 className="font-bold text-gray-800 mb-1">{item.title}</h4>
-              <p className="text-xs text-indigo-600 mb-2">{item.evidence}</p>
-              <p className="text-sm text-green-700 font-semibold mb-1">{item.finding}</p>
-              <p className="text-xs text-gray-600">{item.mechanism}</p>
+            <div key={item.title} className={`rounded-lg p-4 border ${
+              darkMode
+                ? 'bg-gradient-to-r from-indigo-900/30 to-purple-900/30 border-indigo-700'
+                : 'bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200'
+            }`}>
+              <h4 className={`font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</h4>
+              <p className={`text-xs mb-2 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>{item.evidence}</p>
+              <p className="text-sm text-green-600 font-semibold mb-1">{item.finding}</p>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.mechanism}</p>
             </div>
           ))}
         </div>
@@ -1305,7 +1309,7 @@ function EnhancedSessionView({ session, onUpdate, onComplete, darkMode }) {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl p-8 shadow-lg`}>
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        <h2 className={`text-3xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           Sessão: {session.config.topic}
         </h2>
 
