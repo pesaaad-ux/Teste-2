@@ -457,62 +457,88 @@ function CircadianOptimizer({ darkMode }) {
   const optimization = AdvancedLearningAlgorithms.circadianOptimization(currentHour);
 
   const cardClass = darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200';
+  const textClass = darkMode ? 'text-white' : 'text-gray-800';
+  const textSecondaryClass = darkMode ? 'text-gray-300' : 'text-gray-700';
+  const boxBgClass = darkMode ? 'bg-gray-700' : 'bg-white';
 
-  // Color coding based on performance
-  const performanceColor = optimization.performance >= 0.85 ? 'green' :
-                          optimization.performance >= 0.65 ? 'yellow' :
-                          optimization.performance >= 0.45 ? 'orange' : 'red';
+  // Color coding based on performance with actual color values
+  const performanceColorData = optimization.performance >= 0.85 ? {
+    name: 'green',
+    textColor: '#16a34a',
+    gradientFrom: '#4ade80',
+    gradientTo: '#16a34a'
+  } : optimization.performance >= 0.65 ? {
+    name: 'yellow',
+    textColor: '#ca8a04',
+    gradientFrom: '#fbbf24',
+    gradientTo: '#ca8a04'
+  } : optimization.performance >= 0.45 ? {
+    name: 'orange',
+    textColor: '#ea580c',
+    gradientFrom: '#fb923c',
+    gradientTo: '#ea580c'
+  } : {
+    name: 'red',
+    textColor: '#dc2626',
+    gradientFrom: '#f87171',
+    gradientTo: '#dc2626'
+  };
 
   return (
     <div className={`${cardClass} rounded-xl p-5 border-2 mb-6`}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Sun className="w-5 h-5 text-amber-500" />
-          <h3 className="font-bold text-gray-800">
+          <h3 className={`font-bold ${textClass}`}>
             Otimização Circadiana
           </h3>
           <Tooltip content="Seu cérebro tem diferentes níveis de performance ao longo do dia devido aos ritmos circadianos controlados pelo núcleo supraquiasmático. Esta seção otimiza sua sessão baseado no horário atual.">
-            <span className="text-sm">Ritmo Circadiano</span>
+            <span className={`text-sm ${textSecondaryClass}`}>Ritmo Circadiano</span>
           </Tooltip>
         </div>
 
         <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-gray-600" />
-          <span className="font-medium text-gray-700">{currentHour}:00</span>
+          <Clock className={`w-4 h-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`} />
+          <span className={`font-medium ${textSecondaryClass}`}>{currentHour}:00</span>
         </div>
       </div>
 
       {/* Performance meter */}
       <div className="mb-4">
         <div className="flex justify-between text-sm mb-1">
-          <span className="text-gray-700">Performance Cognitiva</span>
-          <span className={`font-bold text-${performanceColor}-600`}>
+          <span className={textSecondaryClass}>Performance Cognitiva</span>
+          <span className="font-bold" style={{ color: performanceColorData.textColor }}>
             {(optimization.performance * 100).toFixed(0)}%
           </span>
         </div>
-        <div className="h-3 bg-white rounded-full overflow-hidden">
+        <div className={`h-3 rounded-full overflow-hidden ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
           <div
-            className={`h-full bg-gradient-to-r from-${performanceColor}-400 to-${performanceColor}-600 transition-all`}
-            style={{ width: `${optimization.performance * 100}%` }}
+            className="h-full transition-all"
+            style={{
+              width: `${optimization.performance * 100}%`,
+              backgroundImage: `linear-gradient(to right, ${performanceColorData.gradientFrom}, ${performanceColorData.gradientTo})`
+            }}
           />
         </div>
       </div>
 
       {/* Recommendations */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white rounded-lg p-3">
-          <p className="text-xs text-gray-500 mb-1">✅ RECOMENDADO</p>
-          <p className="text-sm font-medium text-gray-800">{optimization.recommendation.activity}</p>
+        <div className={`${boxBgClass} rounded-lg p-3 ${darkMode ? 'border border-gray-600' : ''}`}>
+          <p className={`text-xs mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>✅ RECOMENDADO</p>
+          <p className={`text-sm font-medium ${textClass}`}>{optimization.recommendation.activity}</p>
         </div>
 
-        <div className="bg-white rounded-lg p-3">
-          <p className="text-xs text-gray-500 mb-1">❌ EVITAR</p>
-          <p className="text-sm font-medium text-gray-800">{optimization.recommendation.avoid}</p>
+        <div className={`${boxBgClass} rounded-lg p-3 ${darkMode ? 'border border-gray-600' : ''}`}>
+          <p className={`text-xs mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>❌ EVITAR</p>
+          <p className={`text-sm font-medium ${textClass}`}>{optimization.recommendation.avoid}</p>
         </div>
       </div>
 
-      <div className="mt-3 p-3 bg-indigo-100 rounded-lg">
-        <p className="text-xs text-indigo-900">
+      <div className={`mt-3 p-3 rounded-lg ${
+        darkMode ? 'bg-indigo-900/40 border border-indigo-700' : 'bg-indigo-100'
+      }`}>
+        <p className={`text-xs ${darkMode ? 'text-indigo-200' : 'text-indigo-900'}`}>
           <strong>💡 Dica:</strong> {optimization.recommendation.optimize}
         </p>
       </div>
@@ -927,7 +953,7 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
             'Prediction error learning',
             'Sleep-dependent consolidation'
           ].map(badge => (
-            <span key={badge} className="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">
+            <span key={badge} className={`px-3 py-1 text-xs rounded-full font-medium ${darkMode ? 'bg-indigo-900/50 text-indigo-300' : 'bg-indigo-100 text-indigo-700'}`}>
               {badge}
             </span>
           ))}
@@ -948,20 +974,20 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
 
         <div className={`${cardClass} rounded-2xl p-8 border-2`}>
           <Activity className="w-12 h-12 text-green-600 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">95%</h3>
-          <p className="text-gray-600">Taxa de retenção média</p>
+          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>95%</h3>
+          <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Taxa de retenção média</p>
         </div>
 
         <div className={`${cardClass} rounded-2xl p-8 border-2`}>
           <TrendingUp className="w-12 h-12 text-blue-600 mb-4" />
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">Evidência</h3>
-          <p className="text-gray-600">Baseado em 50+ estudos</p>
+          <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Evidência</h3>
+          <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Baseado em 50+ estudos</p>
         </div>
       </div>
 
       {/* Scientific foundations */}
       <div className={`${cardClass} rounded-2xl p-8 border-2`}>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <h2 className={`text-2xl font-bold mb-6 flex items-center gap-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           <Award className="w-7 h-7 text-indigo-600" />
           Fundamentos Científicos do Protocolo
         </h2>
@@ -1005,11 +1031,15 @@ function EnhancedDashboard({ onStartNew, darkMode }) {
               mechanism: 'SWS → hippocampal replay → neocortical integration'
             }
           ].map(item => (
-            <div key={item.title} className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-4 border border-indigo-200">
-              <h4 className="font-bold text-gray-800 mb-1">{item.title}</h4>
-              <p className="text-xs text-indigo-600 mb-2">{item.evidence}</p>
-              <p className="text-sm text-green-700 font-semibold mb-1">{item.finding}</p>
-              <p className="text-xs text-gray-600">{item.mechanism}</p>
+            <div key={item.title} className={`rounded-lg p-4 border ${
+              darkMode
+                ? 'bg-gradient-to-r from-indigo-900/30 to-purple-900/30 border-indigo-700'
+                : 'bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200'
+            }`}>
+              <h4 className={`font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</h4>
+              <p className={`text-xs mb-2 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>{item.evidence}</p>
+              <p className="text-sm text-green-600 font-semibold mb-1">{item.finding}</p>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.mechanism}</p>
             </div>
           ))}
         </div>
@@ -1048,38 +1078,44 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
     onStart(config);
   };
 
-  return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-            Configurar Sessão de Estudo
-          </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+  const bgClass = darkMode ? 'bg-gray-800' : 'bg-white';
+  const textClass = darkMode ? 'text-white' : 'text-gray-800';
+  const textSecondaryClass = darkMode ? 'text-gray-300' : 'text-gray-700';
+  const inputBgClass = darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
 
-        <div className="space-y-6">
-          {/* Topic */}
-          <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
-              Tópico ou Capítulo
-            </label>
-            <input
-              type="text"
-              value={config.topic}
-              onChange={(e) => setConfig({...config, topic: e.target.value})}
-              placeholder="Ex: Potenciação de Longo Prazo (LTP)"
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none text-lg"
-            />
+  return (
+    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
+      <div className={`${bgClass} rounded-2xl max-w-2xl w-full my-8 shadow-2xl`}>
+        <div className="max-h-[85vh] overflow-y-auto p-8">
+          <div className={`flex items-center justify-between mb-6 sticky top-0 pb-4 z-10 ${bgClass}`}>
+            <h2 className={`text-3xl font-bold ${textClass}`}>
+              Configurar Sessão de Estudo
+            </h2>
+            <button onClick={onClose} className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}>
+              <X className="w-6 h-6" />
+            </button>
           </div>
 
-          {/* Material Type */}
-          <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
-              Tipo de Material
-            </label>
+          <div className="space-y-6">
+            {/* Topic */}
+            <div>
+              <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
+                Tópico ou Capítulo
+              </label>
+              <input
+                type="text"
+                value={config.topic}
+                onChange={(e) => setConfig({...config, topic: e.target.value})}
+                placeholder="Ex: Potenciação de Longo Prazo (LTP)"
+                className={`w-full px-4 py-3 border-2 rounded-lg focus:border-indigo-500 focus:outline-none text-lg transition-colors ${inputBgClass}`}
+              />
+            </div>
+
+            {/* Material Type */}
+            <div>
+              <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
+                Tipo de Material
+              </label>
             <div className="grid grid-cols-3 gap-3">
               {[
                 { value: 'textbook', label: 'Livro/Apostila', icon: '📚' },
@@ -1092,11 +1128,13 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
                   className={`p-4 rounded-xl border-2 transition-all ${
                     config.materialType === opt.value
                       ? 'border-indigo-500 bg-indigo-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : darkMode
+                        ? 'border-gray-600 bg-gray-700 hover:border-gray-500'
+                        : 'border-gray-200 bg-white hover:border-gray-300'
                   }`}
                 >
                   <div className="text-3xl mb-2">{opt.icon}</div>
-                  <div className="text-sm font-medium">{opt.label}</div>
+                  <div className={`text-sm font-medium ${darkMode ? 'text-white' : 'text-gray-800'}`}>{opt.label}</div>
                 </button>
               ))}
             </div>
@@ -1104,8 +1142,8 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
 
           {/* Pages */}
           <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
-              Número de Páginas: {config.pages}
+            <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
+              Número de Páginas: <span className={textClass}>{config.pages}</span>
             </label>
             <input
               type="range"
@@ -1115,7 +1153,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
               onChange={(e) => setConfig({...config, pages: parseInt(e.target.value)})}
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className={`flex justify-between text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               <span>1 página</span>
               <span>10+ páginas</span>
             </div>
@@ -1123,26 +1161,26 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
 
           {/* Complexity */}
           <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
+            <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
               Complexidade do Material
             </label>
             <div className="grid grid-cols-3 gap-3">
               {[
-                { value: 'easy', label: 'Fácil', desc: 'Conceitos simples', color: 'green' },
-                { value: 'medium', label: 'Médio', desc: 'Moderadamente complexo', color: 'yellow' },
-                { value: 'hard', label: 'Difícil', desc: 'Altamente técnico', color: 'red' }
+                { value: 'easy', label: 'Fácil', desc: 'Conceitos simples', borderColor: '#22c55e', bgColor: darkMode ? '#166534' : '#f0fdf4', activeBorder: '#16a34a' },
+                { value: 'medium', label: 'Médio', desc: 'Moderadamente complexo', borderColor: '#eab308', bgColor: darkMode ? '#854d0e' : '#fef9c3', activeBorder: '#ca8a04' },
+                { value: 'hard', label: 'Difícil', desc: 'Altamente técnico', borderColor: '#ef4444', bgColor: darkMode ? '#991b1b' : '#fee2e2', activeBorder: '#dc2626' }
               ].map(opt => (
                 <button
                   key={opt.value}
                   onClick={() => setConfig({...config, complexity: opt.value})}
-                  className={`p-4 rounded-xl border-2 transition-all text-left ${
-                    config.complexity === opt.value
-                      ? `border-${opt.color}-500 bg-${opt.color}-50`
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`p-4 rounded-xl border-2 transition-all text-left ${darkMode ? 'bg-gray-700' : 'bg-white'}`}
+                  style={{
+                    borderColor: config.complexity === opt.value ? opt.activeBorder : (darkMode ? '#4b5563' : '#e5e7eb'),
+                    backgroundColor: config.complexity === opt.value ? opt.bgColor : (darkMode ? '#374151' : '#ffffff')
+                  }}
                 >
-                  <div className="font-bold text-gray-800">{opt.label}</div>
-                  <div className="text-xs text-gray-600 mt-1">{opt.desc}</div>
+                  <div className={`font-bold ${textClass}`}>{opt.label}</div>
+                  <div className={`text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{opt.desc}</div>
                 </button>
               ))}
             </div>
@@ -1150,8 +1188,8 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
 
           {/* Prior Knowledge */}
           <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
-              Conhecimento Prévio: {(config.priorKnowledge * 100).toFixed(0)}%
+            <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
+              Conhecimento Prévio: <span className={textClass}>{(config.priorKnowledge * 100).toFixed(0)}%</span>
             </label>
             <input
               type="range"
@@ -1162,7 +1200,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
               onChange={(e) => setConfig({...config, priorKnowledge: parseFloat(e.target.value)})}
               className="w-full"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className={`flex justify-between text-xs mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               <span>Nunca vi</span>
               <span>Já domino</span>
             </div>
@@ -1170,7 +1208,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
 
           {/* Protocol Tier */}
           <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">
+            <label className={`block text-sm font-bold mb-2 ${textSecondaryClass}`}>
               Nível do Protocolo
             </label>
             <div className="space-y-3">
@@ -1206,19 +1244,21 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
                   className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
                     config.tier === opt.value
                       ? 'border-indigo-500 bg-indigo-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : darkMode
+                        ? 'border-gray-600 bg-gray-700 hover:border-gray-500'
+                        : 'border-gray-200 bg-white hover:border-gray-300'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-gray-800 text-lg">{opt.label}</span>
+                    <span className={`font-bold text-lg ${textClass}`}>{opt.label}</span>
                     <span className="px-3 py-1 bg-indigo-600 text-white text-xs rounded-full font-bold">
                       {opt.badge}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-2">{opt.desc}</p>
+                  <p className={`text-sm mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{opt.desc}</p>
                   <div className="flex justify-between text-xs">
                     <span className="text-green-600 font-semibold">{opt.result}</span>
-                    <span className="text-gray-500">{opt.time}</span>
+                    <span className={darkMode ? 'text-gray-400' : 'text-gray-500'}>{opt.time}</span>
                   </div>
                 </button>
               ))}
@@ -1226,10 +1266,14 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
           </div>
         </div>
 
-        <div className="mt-8 flex gap-4">
+        <div className="mt-8 flex gap-4 px-8">
           <button
             onClick={onClose}
-            className="flex-1 px-6 py-4 border-2 border-gray-300 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+            className={`flex-1 px-6 py-4 border-2 rounded-xl font-bold transition-colors ${
+              darkMode
+                ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
           >
             Cancelar
           </button>
@@ -1241,11 +1285,16 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
           </button>
         </div>
 
-        <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-          <p className="text-sm text-blue-900">
+        <div className={`mt-4 mx-8 mb-8 p-4 rounded-xl border ${
+          darkMode
+            ? 'bg-indigo-900/30 border-indigo-700'
+            : 'bg-blue-50 border-blue-200'
+        }`}>
+          <p className={`text-sm ${darkMode ? 'text-indigo-200' : 'text-blue-900'}`}>
             <strong>💡 Protocolo R7+:</strong> Implementa os avanços mais recentes em neurociência do aprendizado,
             incluindo SuperMemo 2, otimização circadiana, dual coding, e protocolos de neuromoduladores.
           </p>
+        </div>
         </div>
       </div>
     </div>
@@ -1260,7 +1309,7 @@ function EnhancedSessionView({ session, onUpdate, onComplete, darkMode }) {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl p-8 shadow-lg`}>
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        <h2 className={`text-3xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
           Sessão: {session.config.topic}
         </h2>
 
