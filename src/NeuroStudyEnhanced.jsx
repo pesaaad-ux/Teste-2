@@ -1266,7 +1266,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
           </div>
         </div>
 
-        <div className="mt-8 flex gap-4 px-8">
+        <div className="mt-8 flex gap-4">
           <button
             onClick={onClose}
             className={`flex-1 px-6 py-4 border-2 rounded-xl font-bold transition-colors ${
@@ -1285,7 +1285,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
           </button>
         </div>
 
-        <div className={`mt-4 mx-8 mb-8 p-4 rounded-xl border ${
+        <div className={`mt-4 p-4 rounded-xl border ${
           darkMode
             ? 'bg-indigo-900/30 border-indigo-700'
             : 'bg-blue-50 border-blue-200'
@@ -1295,7 +1295,7 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
             incluindo SuperMemo 2, otimização circadiana, dual coding, e protocolos de neuromoduladores.
           </p>
         </div>
-        </div>
+      </div>
       </div>
     </div>
   );
