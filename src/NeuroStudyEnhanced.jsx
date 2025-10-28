@@ -1071,11 +1071,12 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
   });
 
   const handleStart = () => {
-    if (!config.topic.trim()) {
-      alert('Insira o tópico de estudo');
-      return;
-    }
-    onStart(config);
+    // Se o tópico estiver vazio, usar um valor padrão
+    const sessionConfig = {
+      ...config,
+      topic: config.topic.trim() || 'Sessão de Estudo'
+    };
+    onStart(sessionConfig);
   };
 
   const bgClass = darkMode ? 'bg-gray-800' : 'bg-white';
