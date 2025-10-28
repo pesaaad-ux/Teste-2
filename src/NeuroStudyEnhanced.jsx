@@ -1084,22 +1084,18 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
   const inputBgClass = darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
-      <div className={`${bgClass} rounded-2xl max-w-2xl w-full my-8 shadow-2xl max-h-[90vh] flex flex-col`}>
-        {/* Header Fixo */}
-        <div className={`p-6 pb-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <div className="flex items-center justify-between">
-            <h2 className={`text-3xl font-bold ${textClass}`}>
+    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
+      <div className={`${bgClass} rounded-2xl max-w-2xl w-full my-8 shadow-2xl`}>
+        <div className="max-h-[85vh] overflow-y-auto p-8">
+          <div className={`flex items-center justify-between mb-6 ${textClass}`}>
+            <h2 className={`text-3xl font-bold`}>
               Configurar Sessão de Estudo
             </h2>
             <button onClick={onClose} className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'} transition-colors`}>
               <X className="w-6 h-6" />
             </button>
           </div>
-        </div>
 
-        {/* Conteúdo Scrollável */}
-        <div className="overflow-y-auto p-6 flex-1">
           <div className="space-y-6">
             {/* Topic */}
             <div>
@@ -1270,8 +1266,26 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
           </div>
         </div>
 
-        {/* Info Box */}
-        <div className={`mt-6 p-4 rounded-xl border ${
+        <div className="mt-8 flex gap-4 px-8">
+          <button
+            onClick={onClose}
+            className={`flex-1 px-6 py-4 border-2 rounded-xl font-bold transition-colors ${
+              darkMode
+                ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleStart}
+            className="flex-1 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold hover:shadow-xl transition-all transform hover:scale-105"
+          >
+            Iniciar Sessão R7+ →
+          </button>
+        </div>
+
+        <div className={`mt-4 mx-8 mb-8 p-4 rounded-xl border ${
           darkMode
             ? 'bg-indigo-900/30 border-indigo-700'
             : 'bg-blue-50 border-blue-200'
@@ -1281,33 +1295,6 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
             incluindo SuperMemo 2, otimização circadiana, dual coding, e protocolos de neuromoduladores.
           </p>
         </div>
-      </div>
-
-        {/* Footer Fixo */}
-        <div className={`p-6 pt-4 border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-          <div className="flex gap-4">
-            <button
-              onClick={onClose}
-              className={`flex-1 px-6 py-3 border-2 rounded-xl font-bold transition-colors ${
-                darkMode
-                  ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleStart}
-              disabled={!config.topic.trim()}
-              className={`flex-1 px-6 py-3 rounded-xl font-bold transition-all ${
-                config.topic.trim()
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-xl transform hover:scale-105'
-                  : 'bg-gray-400 text-gray-200 cursor-not-allowed'
-              }`}
-            >
-              Iniciar Sessão R7+ →
-            </button>
-          </div>
         </div>
       </div>
     </div>
