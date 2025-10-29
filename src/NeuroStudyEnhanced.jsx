@@ -1084,10 +1084,10 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
   const inputBgClass = darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900';
 
   return (
-    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
-      <div className={`${bgClass} rounded-2xl max-w-2xl w-full my-8 shadow-2xl`}>
-        <div className="max-h-[85vh] overflow-y-auto p-8">
-          <div className={`flex items-center justify-between mb-6 sticky top-0 pb-4 z-10 ${bgClass}`}>
+    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 p-4" style={{backgroundColor: 'rgba(0, 0, 0, 0.6)'}}>
+      <div className={`${bgClass} rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl`}>
+        <div className={`sticky top-0 z-10 ${bgClass} px-8 pt-8 pb-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+          <div className="flex items-center justify-between">
             <h2 className={`text-3xl font-bold ${textClass}`}>
               Configurar Sessão de Estudo
             </h2>
@@ -1095,7 +1095,9 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
               <X className="w-6 h-6" />
             </button>
           </div>
+        </div>
 
+        <div className="p-8">
           <div className="space-y-6">
             {/* Topic */}
             <div>
@@ -1264,40 +1266,40 @@ function EnhancedNewSessionModal({ onClose, onStart, darkMode }) {
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="mt-8 flex gap-4 px-8">
-          <button
-            onClick={onClose}
-            className={`flex-1 px-6 py-4 border-2 rounded-xl font-bold transition-colors ${
-              darkMode
-                ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            Cancelar
-          </button>
-          <button
-            onClick={handleStart}
-            className="flex-1 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold hover:shadow-xl transition-all transform hover:scale-105"
-          >
-            Iniciar Sessão R7+ →
-          </button>
-        </div>
+          <div className="mt-8 flex gap-4">
+            <button
+              onClick={onClose}
+              className={`flex-1 px-6 py-4 border-2 rounded-xl font-bold transition-colors ${
+                darkMode
+                  ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                  : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleStart}
+              className="flex-1 px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold hover:shadow-xl transition-all transform hover:scale-105"
+            >
+              Iniciar Sessão R7+ →
+            </button>
+          </div>
 
-        <div className={`mt-4 mx-8 mb-8 p-4 rounded-xl border ${
-          darkMode
-            ? 'bg-indigo-900/30 border-indigo-700'
-            : 'bg-blue-50 border-blue-200'
-        }`}>
-          <p className={`text-sm ${darkMode ? 'text-indigo-200' : 'text-blue-900'}`}>
-            <strong>💡 Protocolo R7+:</strong> Implementa os avanços mais recentes em neurociência do aprendizado,
-            incluindo SuperMemo 2, otimização circadiana, dual coding, e protocolos de neuromoduladores.
-          </p>
-        </div>
+          <div className={`mt-4 p-4 rounded-xl border ${
+            darkMode
+              ? 'bg-indigo-900/30 border-indigo-700'
+              : 'bg-blue-50 border-blue-200'
+          }`}>
+            <p className={`text-sm ${darkMode ? 'text-indigo-200' : 'text-blue-900'}`}>
+              <strong>💡 Protocolo R7+:</strong> Implementa os avanços mais recentes em neurociência do aprendizado,
+              incluindo SuperMemo 2, otimização circadiana, dual coding, e protocolos de neuromoduladores.
+            </p>
+          </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
 
